@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Solar Puno</title>
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>☀️ Simulador Solar Puno</h1>
+            <p style="font-size: 1.2em; margin-top: 10px;">📍 Puno, Perú | 🌍 -15.84°, -70.02° | ⛰️ 3,827 msnm</p>
+        </div>
+
+        <div class="grid">
+            <!-- Panel Izquierdo: Estadísticas -->
+            <div>
+                <div class="stat-box">
+                    <div class="label">POA Actual</div>
+                    <div class="value" id="poaValue">--</div>
+                    <div class="label">W/m²</div>
+                </div>
+                <div class="stat-box" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                    <div class="label">Energía Diaria</div>
+                    <div class="value" id="dailyValue">--</div>
+                    <div class="label">kWh/m²</div>
+                </div>
+                <div class="stat-box" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                    <div class="label">Energía Anual</div>
+                    <div class="value" id="annualValue">--</div>
+                    <div class="label">kWh/m²</div>
+                </div>
+                <div class="stat-box" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                    <div class="label">Factor Coseno</div>
+                    <div class="value" id="cosineValue">--</div>
+                    <div class="label">cos(θ)</div>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <h2>📍 Datos de Puno</h2>
+                    <div class="info-text">
+                        <strong>Altitud:</strong> 3,827 m<br>
+                        <strong>GHI Promedio:</strong> 6.2 kWh/m²/día<br>
+                        <strong>Días despejados:</strong> ~280/año<br>
+                        <strong>Temp. media:</strong> 8-10°C
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Central: Visualización -->
+            <div class="card">
+                <h2>🎯 Visualización Interactiva</h2>
+                <canvas id="canvas"></canvas>
+                <div class="info-text">
+                    <strong>💡 Controles:</strong> Arrastra el <strong>panel</strong> o el <strong>sol</strong> • 
+                    Usa <strong>flechas ↑↓←→</strong> • <strong>Espacio</strong>: animar • 
+                    <strong>Doble clic</strong>: reset
+                </div>
+                <div class="chart" id="dailyChart"></div>
+            </div>
+
+            <!-- Panel Derecho: Controles -->
+            <div class="card">
+                <h2>🎮 Controles</h2>
+                
+                <div class="slider-group">
+                    <label>📅 Día del Año: <span id="dayText">172</span></label>
+                    <input type="range" id="daySlider" min="1" max="365" value="172">
+                    <div class="value-display" id="monthText">Jun</div>
+                </div>
+
+                <div class="slider-group">
+                    <label>🕐 Hora: <span id="hourText">12:00</span></label>
+                    <input type="range" id="hourSlider" min="6" max="18" value="12" step="0.25">
+                </div>
+
+                <div class="slider-group">
+                    <label>🔧 Inclinación (β): <span id="tiltText">15°</span></label>
+                    <input type="range" id="tiltSlider" min="0" max="90" value="15">
+                </div>
+
+                <div class="slider-group">
+                    <label>🧭 Azimuth (γ): <span id="azimuthText">0°</span></label>
+                    <input type="range" id="azimuthSlider" min="0" max="360" value="0" step="5">
+                </div>
+
+                <div class="slider-group">
+                    <label>☀️ GHI: <span id="ghiText">240 W/m²</span></label>
+                    <input type="range" id="ghiSlider" min="100" max="350" value="240" step="5">
+                </div>
+
+                <button class="btn-primary" onclick="animateDay()" id="animBtn">▶️ Animar Día</button>
+                <button class="btn-success" onclick="optimize()">🎯 Optimizar Tilt</button>
+                <button class="btn-info" onclick="reset()">🔄 Reiniciar</button>
+                <button class="btn-warning" onclick="showHelp()">❓ Ayuda</button>
+
+                <div class="chart" id="annualChart"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
